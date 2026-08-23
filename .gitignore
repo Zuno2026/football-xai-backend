@@ -1,0 +1,9 @@
+data/
+events/
+360/
+*.zip
+*.tar.gz
+*.csv
+__pycache__/
+.env
+venv/
