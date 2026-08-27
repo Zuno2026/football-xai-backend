@@ -106,7 +106,7 @@ REAL_METRICS = {
     },
     "test_set_size": 22237,
     "training_matches": 426,
-    "training_graphs": 146456,
+    "training_graphs": 134171,
 }
 
 class GATClassifier(nn.Module):
@@ -129,10 +129,11 @@ class GATClassifier(nn.Module):
         x = global_mean_pool(x, batch)
         return self.fc(x)
 
-app = FastAPI(title="Football XAI Backend")
+app = FastAPI(title="Football XAI Backend Engine")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -152,7 +153,6 @@ def get_model():
                 detail=f"Model file not found at '{MODEL_PATH}'."
             )
         _model.eval()
-        # Epochs reduced to 30 for high-speed response while preserving explanation quality
         _explainer = Explainer(
             model=_model,
             algorithm=GNNExplainer(epochs=30, lr=0.02),
